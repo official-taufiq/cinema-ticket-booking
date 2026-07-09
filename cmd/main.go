@@ -1,1 +1,1 @@
-package cinemabooking
+package main
