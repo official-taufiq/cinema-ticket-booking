@@ -1,9 +1,14 @@
 package booking
 
-import "github.com/official-taufiq/cinema-ticket-booking/internal/booking/utils"
+import (
+	"sync"
+
+	"github.com/official-taufiq/cinema-ticket-booking/internal/booking/utils"
+)
 
 type MemoryStore struct {
 	bookings map[string]Booking
+	sync.RWMutex
 }
 
 func NewMemoryStore() *MemoryStore {
@@ -13,6 +18,9 @@ func NewMemoryStore() *MemoryStore {
 }
 
 func (s *MemoryStore) Book(b Booking) error {
+	s.Lock()
+	defer s.Unlock()
+
 	if _, ok := s.bookings[b.SeatID]; !ok {
 		s.bookings[b.SeatID] = b
 		return nil
@@ -21,6 +29,9 @@ func (s *MemoryStore) Book(b Booking) error {
 }
 
 func (s *MemoryStore) ListBookings(movieID string) []Booking {
+	s.RLock()
+	defer s.RUnlock()
+
 	var bookings []Booking
 	for _, b := range s.bookings {
 		if b.MovieID == movieID {
