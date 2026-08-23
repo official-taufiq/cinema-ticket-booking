@@ -6,14 +6,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/official-taufiq/cinema-ticket-booking/internal/booking/utils"
+	"github.com/official-taufiq/cinema-ticket-booking/internal/utils"
 )
 
 func ListMovies(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(movies)
+	utils.WriteJSON(w, http.StatusOK, movies)
 }
 
 var movies = []struct {
@@ -22,8 +20,10 @@ var movies = []struct {
 	Rows        int    `json:"rows"`
 	SeatsPerRow int    `json:"seats_per_row"`
 }{
-	{ID: "inception", Title: "Inception", Rows: 5, SeatsPerRow: 6},
-	{ID: "dune", Title: "Dune", Rows: 4, SeatsPerRow: 6},
+	{ID: "shawshanksredemption", Title: "Shawshanks Redemption", Rows: 5, SeatsPerRow: 6},
+	{ID: "vanhelsing", Title: "Van Helsing", Rows: 4, SeatsPerRow: 6},
+	{ID: "3idiots", Title: "3 Idiots", Rows: 5, SeatsPerRow: 6},
+	{ID: "interstellar", Title: "Interstellar", Rows: 5, SeatsPerRow: 6},
 }
 
 type handler struct {

@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/official-taufiq/cinema-ticket-booking/internal/booking/utils"
+	"github.com/official-taufiq/cinema-ticket-booking/internal/utils"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -53,6 +53,7 @@ func (s *RedisStore) hold(b Booking) (Booking, error) {
 	ok := res.Val() == "OK"
 	if !ok {
 		return Booking{}, utils.ErrSeatAlreadyBooked
+
 	}
 
 	s.rdb.Set(ctx, sessionKey(id), key, HoldTTL)
